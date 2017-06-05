@@ -45,5 +45,9 @@ legend('Target','Ownship','Target initial','Ownship initial')
 legend('Location','northwest')
 xlim([-4000 8000])
 ylim([-4000 8000])
+xlabel('x(in meters)','FontSize',9)
+ylabel('y(in meters)','FontSize',9)
+title('Target and ownship trajectories','FontSize',9)
+
 hold on
 
