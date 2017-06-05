@@ -9,11 +9,23 @@ startTime = 60;
 time = startTime;
 finalTime = 1800;
 timeStep = 60;
-
+%Initial Measurements
+bearing = atan2(targetInit(1)-ownshipInit(1),targetInit(2)-ownshipInit(2))*180/pi + (6 * randn());
+distance = sqrt((targetInit(1)-ownshipInit(1))^2+(targetInit(2)-ownshipInit(2))^2);
+targetEst = [distance*cosd(bearing);
+             distance*sind(bearing);
+             0;
+             0];
+targetEstLog = [targetEst];
+P = [0 0 0 0;
+     0 0 0 0;
+     0 0 10 0;
+     0 0 0 10];
 %Simulation
 for i = startTime:timeStep:finalTime
     time = i;
-%move vehicle
+    
+%move vehicle and target
 if(time == 900)
     ownshipState(3) = -56;
 end
@@ -28,11 +40,16 @@ targetState = [targetState(1) + targetState(4)*60*cosd(targetState(3));
     targetState(4)];
 targetStateLog = [targetStateLog targetState];
 
+%Measure
+
+%Estimation
 
 
 end
 
 %Figure
+plot(targetEst(1),targetEst(2),'x')
+hold on
 plot(targetStateLog(1,:),targetStateLog(2,:),'-b')
 hold on
 plot(ownshipStateLog(1,:),ownshipStateLog(2,:),'-r')
