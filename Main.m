@@ -1,4 +1,7 @@
 %script
+rangeVar = 2;
+thetaVar = 6;
+velocityVar = 10;
 targetInit = [7071; 7071; 225; 7.72];
 ownshipInit = [0; 0; 170; 2.57];
 ownshipState = ownshipInit;
@@ -10,7 +13,7 @@ time = startTime;
 finalTime = 1800;
 timeStep = 60;
 %Initial Measurements
-bearing = atan2(targetInit(1)-ownshipInit(1),targetInit(2)-ownshipInit(2))*180/pi + (6 * randn());
+bearing = atan2(targetInit(1)-ownshipInit(1),targetInit(2)-ownshipInit(2))*180/pi + (thetaVar * randn());
 distance = sqrt((targetInit(1)-ownshipInit(1))^2+(targetInit(2)-ownshipInit(2))^2);
 targetEst = [distance*cosd(bearing);
              distance*sind(bearing);
@@ -19,8 +22,13 @@ targetEst = [distance*cosd(bearing);
 targetEstLog = [targetEst];
 P = [0 0 0 0;
      0 0 0 0;
-     0 0 10 0;
-     0 0 0 10];
+     0 0 velocityVar^2 0;
+     0 0 0 velocityVar^2];
+Q = [rangeVar^2 0;
+     0 rangeVar^2];
+
+ 
+ 
 %Simulation
 for i = startTime:timeStep:finalTime
     time = i;
