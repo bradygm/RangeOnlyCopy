@@ -1,5 +1,5 @@
 %script
-rangeVar = 2;
+rangeVar = 1;
 thetaVar = 6;
 velocityVar = 10;
 targetInit = [7071; 7071; 225; 7.72];
@@ -12,6 +12,7 @@ startTime = 60;
 time = startTime;
 finalTime = 1800;
 timeStep = 60;
+
 %Initial Measurements
 bearing = atan2(targetInit(1)-ownshipInit(1),targetInit(2)-ownshipInit(2))*180/pi + (thetaVar * randn());
 distance = sqrt((targetInit(1)-ownshipInit(1))^2+(targetInit(2)-ownshipInit(2))^2);
@@ -49,6 +50,8 @@ targetState = [targetState(1) + targetState(4)*60*cosd(targetState(3));
 targetStateLog = [targetStateLog targetState];
 
 %Measure
+varry = rangeVar * randn();
+distance = sqrt((targetState(1)-ownshipInit(1)+varry)^2+(targetState(2)-ownshipInit(2)+varry)^2);%Check the variance method
 
 %Estimation
 
