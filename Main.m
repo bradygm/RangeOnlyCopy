@@ -29,7 +29,10 @@ P = [0 0 0 0;
      0 0 0 velocityVar^2];
 Q = [rangeVar^2 0;
      0 rangeVar^2];
-
+F = [1 0 timeStep 0;
+     0 1 0 timeStep;
+     0 0 1 0;
+     0 0 0 1];
  
  
 %Simulation
@@ -41,15 +44,9 @@ if(time == 900)
     ownshipState(3) = 1.4371;
     ownshipState(4) = -2.1306;
 end
-ownshipState = [ownshipState(1) + ownshipState(3)*timeStep;
-    ownshipState(2) + ownshipState(4)*timeStep;
-    ownshipState(3);
-    ownshipState(4)];
+ownshipState = F*ownshipState;
 ownshipStateLog = [ownshipStateLog ownshipState];
-targetState = [targetState(1) + targetState(3)*timeStep;
-    targetState(2) + targetState(4)*timeStep;
-    targetState(3);
-    targetState(4)];
+targetState = F*targetState;
 targetStateLog = [targetStateLog targetState];
 
 %Measure
