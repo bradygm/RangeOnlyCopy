@@ -50,8 +50,11 @@ targetState = F*targetState;
 targetStateLog = [targetStateLog targetState];
 
 %Measure
+H=[(1-(ownshipState(1)/targetState(1))) 0 0 0;
+    0 (1-(ownshipState(2)/targetState(2))) 0 0];
+dis = H*targetState;
 varry = rangeVar * randn();
-distance = sqrt((targetState(1)-ownshipInit(1)+varry)^2+(targetState(2)-ownshipInit(2)+varry)^2);%Check the variance method
+distance = sqrt((dis(1)+varry)^2+(dis(2)+varry)^2);%Check the variance method
 
 %Estimation
 
