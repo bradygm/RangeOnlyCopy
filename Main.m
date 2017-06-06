@@ -2,8 +2,10 @@
 rangeVar = 1;
 thetaVar = 6;
 velocityVar = 10;
-targetInit = [7071; 7071; 225; 7.72];
-ownshipInit = [0; 0; 170; 2.57];
+% targetInit = [7071; 7071; 225; 7.72];
+% ownshipInit = [0; 0; 170; 2.57];
+targetInit = [7071; 7071; -5.4589; -5.4589];
+ownshipInit = [0; 0; -2.5310; .4463];
 ownshipState = ownshipInit;
 targetState = targetInit;
 targetStateLog = [];
@@ -15,7 +17,7 @@ timeStep = 60;
 
 %Initial Measurements
 bearing = atan2(targetInit(1)-ownshipInit(1),targetInit(2)-ownshipInit(2))*180/pi + (thetaVar * randn());
-distance = sqrt((targetInit(1)-ownshipInit(1))^2+(targetInit(2)-ownshipInit(2))^2);
+distance = sqrt((targetInit(1)-ownshipInit(1)+(rangeVar * randn()))^2+(targetInit(2)-ownshipInit(2)+(rangeVar * randn()))^2);
 targetEst = [distance*cosd(bearing);
              distance*sind(bearing);
              0;
@@ -36,15 +38,16 @@ for i = startTime:timeStep:finalTime
     
 %move vehicle and target
 if(time == 900)
-    ownshipState(3) = -56;
+    ownshipState(3) = 1.4371;
+    ownshipState(4) = -2.1306;
 end
-ownshipState = [ownshipState(1) + ownshipState(4)*60*cosd(ownshipState(3));
-    ownshipState(2) + ownshipState(4)*60*sind(ownshipState(3));
+ownshipState = [ownshipState(1) + ownshipState(3)*timeStep;
+    ownshipState(2) + ownshipState(4)*timeStep;
     ownshipState(3);
     ownshipState(4)];
 ownshipStateLog = [ownshipStateLog ownshipState];
-targetState = [targetState(1) + targetState(4)*60*cosd(targetState(3));
-    targetState(2) + targetState(4)*60*sind(targetState(3));
+targetState = [targetState(1) + targetState(3)*timeStep;
+    targetState(2) + targetState(4)*timeStep;
     targetState(3);
     targetState(4)];
 targetStateLog = [targetStateLog targetState];
