@@ -57,6 +57,17 @@ varry = rangeVar * randn();
 distance = sqrt((dis(1)+varry)^2+(dis(2)+varry)^2);%Check the variance method
 
 %Estimation
+targetEst = F*targetEst;
+H_est = [(1-(ownshipState(1)/targetEst(1))) 0 0 0;
+    0 (1-(ownshipState(2)/targetEst(2))) 0 0];
+disEst = H*targetEst;
+P_pred = F*P*F'; %QsuperS
+S=H*P_pred*H'+Q;
+K=P_pred*H'/S;
+
+
+
+
 
 
 end
