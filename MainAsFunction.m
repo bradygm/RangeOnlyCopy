@@ -77,6 +77,7 @@ targetEst = targetEst + K*(dis-disEst);
 P_pred = (eye(4)-K*H)*P_pred;
 P = P_pred;
 targetEstLog = [targetEstLog targetEst];
+%RMSE = sqrt( mean((targetStateLog(1:2)-targetEstLog(1:2)).^2));
 r = sqrt( sum( (targetStateLog(1:2)-targetEstLog(1:2)).^2) / numel(targetStateLog) ); 
 rmsLog = [rmsLog r];
 

@@ -6,5 +6,6 @@ for i = 1:1:iterations
    rmsLog100 = rmsLog100 + rmsLog;
     
 end
-rmsLog100 = rmsLog100./iterations;
+%rmsLog100 = rmsLog100./iterations;
+figure()
 plot(rmsLog100)

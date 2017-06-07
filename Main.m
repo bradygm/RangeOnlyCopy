@@ -11,6 +11,7 @@ targetState = targetInit;
 targetStateLog = [targetInit];
 ownshipStateLog = [];
 rmsLog = [];
+PLog = [];
 startTime = 60;
 time = startTime;
 finalTime = 1800;
@@ -34,7 +35,7 @@ F = [1 0 timeStep 0;
      0 1 0 timeStep;
      0 0 1 0;
      0 0 0 1];
- 
+PLog = P;
  
 %Simulation
 for i = startTime:timeStep:finalTime
@@ -71,7 +72,7 @@ P = P_pred;
 targetEstLog = [targetEstLog targetEst];
 r = sqrt( sum( (targetStateLog(1:2)-targetEstLog(1:2)).^2) / numel(targetStateLog) ); 
 rmsLog = [rmsLog r];
-
+PLog = [PLog P];
 
 
 end
@@ -86,8 +87,8 @@ hold on
 plot(ownshipInit(1),ownshipInit(2),'or', 'MarkerSize', 2)
 hold on
 plot(targetInit(1),targetInit(2),'ob', 'MarkerSize', 2)
-legend('Target Estimate','Target','Ownship','Ownship initial','Target initial')
-legend('Location','northwest')
+%legend('Target Estimate','Target','Ownship','Ownship initial','Target initial')
+%legend('Location','northwest')
 xlim([-4000 8000])
 ylim([-4000 8000])
 xlabel('x(in meters)','FontSize',9)
@@ -96,6 +97,13 @@ title('Target and ownship trajectories','FontSize',9)
 
 % figure()
 % plot(rmsLog)
+
+mu = [targetEstLog(1,15) targetEstLog(2,15)];
+Sigma = [P(1,1) P(1,2); P(2,1) P(2,2)];
+rng default  % For reproducibility
+blah = mvnrnd(mu,Sigma,200);
+%figure()
+plot(blah(:,1),blah(:,2),'+')
 
 
 
