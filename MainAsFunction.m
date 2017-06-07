@@ -1,3 +1,11 @@
+function [ rmsLog ] = MainAsFunction(  )
+%UNTITLED3 Summary of this function goes here
+%   Detailed explanation goes here
+
+
+
+
+
 %script
 rangeVar = 1;
 thetaVar = 6;
@@ -98,4 +106,4 @@ title('Target and ownship trajectories','FontSize',9)
 % plot(rmsLog)
 
 
-
+end
