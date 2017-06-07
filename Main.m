@@ -10,6 +10,7 @@ ownshipState = ownshipInit;
 targetState = targetInit;
 targetStateLog = [];
 ownshipStateLog = [];
+targetEstLog = [];
 startTime = 60;
 time = startTime;
 finalTime = 1800;
@@ -64,7 +65,10 @@ disEst = H*targetEst;
 P_pred = F*P*F'; %QsuperS
 S=H*P_pred*H'+Q;
 K=P_pred*H'/S;
-
+targetEst = targetEst + K*(dis-disEst);
+P_pred = (eye(4)-K*H)*P_pred;
+P = P_pred;
+targetEstLog = [targetEstLog targetEst];
 
 
 
@@ -73,7 +77,7 @@ K=P_pred*H'/S;
 end
 
 %Figure
-plot(targetEst(1),targetEst(2),'x')
+plot(targetEstLog(1,:),targetEstLog(2,:),'-g')
 hold on
 plot(targetStateLog(1,:),targetStateLog(2,:),'-b')
 hold on
@@ -82,7 +86,7 @@ hold on
 plot(ownshipInit(1),ownshipInit(2),'or', 'MarkerSize', 2)
 hold on
 plot(targetInit(1),targetInit(2),'ob', 'MarkerSize', 2)
-legend('Target','Ownship','Target initial','Ownship initial')
+legend('Target Estimate','Target','Ownship','Ownship initial','Target initial')
 %plot(ownshipStateLog(1,:),ownshipStateLog(2,:),'o')
 legend('Location','northwest')
 xlim([-4000 8000])
