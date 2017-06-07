@@ -8,9 +8,9 @@ targetInit = [7071; 7071; -5.4589; -5.4589];
 ownshipInit = [0; 0; -2.5310; .4463];
 ownshipState = ownshipInit;
 targetState = targetInit;
-targetStateLog = [];
+targetStateLog = [targetInit];
 ownshipStateLog = [];
-targetEstLog = [];
+rmsLog = [];
 startTime = 60;
 time = startTime;
 finalTime = 1800;
@@ -69,8 +69,8 @@ targetEst = targetEst + K*(dis-disEst);
 P_pred = (eye(4)-K*H)*P_pred;
 P = P_pred;
 targetEstLog = [targetEstLog targetEst];
-
-
+r = sqrt( sum( (targetStateLog(1:2)-targetEstLog(1:2)).^2) / numel(targetStateLog) ); 
+rmsLog = [rmsLog r];
 
 
 
@@ -87,7 +87,6 @@ plot(ownshipInit(1),ownshipInit(2),'or', 'MarkerSize', 2)
 hold on
 plot(targetInit(1),targetInit(2),'ob', 'MarkerSize', 2)
 legend('Target Estimate','Target','Ownship','Ownship initial','Target initial')
-%plot(ownshipStateLog(1,:),ownshipStateLog(2,:),'o')
 legend('Location','northwest')
 xlim([-4000 8000])
 ylim([-4000 8000])
@@ -95,5 +94,8 @@ xlabel('x(in meters)','FontSize',9)
 ylabel('y(in meters)','FontSize',9)
 title('Target and ownship trajectories','FontSize',9)
 
-hold on
+% figure()
+% plot(rmsLog)
+
+
 
