@@ -11,7 +11,6 @@ targetState = targetInit;
 targetStateLog = [targetInit];
 ownshipStateLog = [];
 rmsLog = [];
-PLog = [];
 startTime = 60;
 time = startTime;
 finalTime = 1800;
@@ -97,13 +96,6 @@ title('Target and ownship trajectories','FontSize',9)
 
 % figure()
 % plot(rmsLog)
-
-mu = [targetEstLog(1,15) targetEstLog(2,15)];
-Sigma = [P(1,1) P(1,2); P(2,1) P(2,2)];
-rng default  % For reproducibility
-blah = mvnrnd(mu,Sigma,200);
-%figure()
-plot(blah(:,1),blah(:,2),'+')
 
 
 
