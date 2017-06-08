@@ -69,12 +69,12 @@ distance = sqrt((dis(1)+varry)^2+(dis(2)+varry)^2);%Check the variance method
 targetEst = F*targetEst;
 H_est = [(1-(ownshipState(1)/targetEst(1))) 0 0 0;
     0 (1-(ownshipState(2)/targetEst(2))) 0 0];
-disEst = H*targetEst;
+disEst = H_est*targetEst;
 P_pred = F*P*F'; %QsuperS
-S=H*P_pred*H'+Q;
-K=P_pred*H'/S;
+S=H_est*P_pred*H_est'+Q;
+K=P_pred*H_est'/S;
 targetEst = targetEst + K*(distance-disEst);
-P_pred = (eye(4)-K*H)*P_pred;
+P_pred = (eye(4)-K*H_est)*P_pred;
 P = P_pred;
 targetEstLog = [targetEstLog targetEst];
 %RMSE = sqrt( mean((targetStateLog(1:2)-targetEstLog(1:2)).^2));
